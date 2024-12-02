@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: cadetblue;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background-color: white;
+            padding: 100px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container .title-box {
+            display: inline-block;
+            background-color: cyan;
+            padding: 30px 80px; /* Ajustado o padding para uma largura mais razoável */
+            border-radius: 8px;
+            color: white;
+            font-size: 24px;
+            line-height: 1.2; /* Ajustado para mover o texto mais para cima */
+            margin-bottom: 60px; /* Adicionei um espaçamento entre o título e o formulário */
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .login-container input:focus {
+            border-color: #4CAF50; /* Mudança na borda ao focar no campo */
+            outline: none; /* Remove o contorno padrão */
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+        .login-container p {
+            text-align: center;
+        }
+        .login-container p a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        /* Responsividade para telas menores */
+        @media (max-width: 500px) {
+            .login-container {
+                width: 80%;
+            }
+            .login-container .title-box {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="title-box">
+            Login
+        </div>
+        <form action="/submit" method="POST">
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+        <p>Ainda não tem uma conta? <a href="registro.html">Registre-se aqui</a></p> <!-- Link para a página de registro -->
+    </div>
+
+</body>
+</html>
