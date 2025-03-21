@@ -26,15 +26,17 @@
             margin-bottom: 20px;
         }
         .login-container .title-box {
-            display: inline-block;
-            background-color: cyan;
-            padding: 30px 80px; /* Ajustado o padding para uma largura mais razoável */
-            border-radius: 8px;
-            color: white;
-            font-size: 24px;
-            line-height: 1.2; /* Ajustado para mover o texto mais para cima */
-            margin-bottom: 60px; /* Adicionei um espaçamento entre o título e o formulário */
-        }
+    display: inline-block;
+    background-color: cyan;
+    padding: 30px 80px;
+    border-radius: 8px;
+    /* color: white; */
+    font-size: 24px;
+    line-height: 1.2;
+    margin-bottom: 60px;
+    margin-top: -30px; /* Ajuste a posição superior */
+}
+
         .login-container input {
             width: 100%;
             padding: 10px;
@@ -43,15 +45,15 @@
             border-radius: 4px;
         }
         .login-container input:focus {
-            border-color: #4CAF50; /* Mudança na borda ao focar no campo */
-            outline: none; /* Remove o contorno padrão */
+            /* background-color: cyan; */
+            outline: none;
         }
         .login-container button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: cyan;
             border: none;
-            color: white;
+            /* color: ; */
             font-size: 16px;
             cursor: pointer;
             border-radius: 4px;
@@ -66,6 +68,11 @@
             color: #4CAF50;
             text-decoration: none;
         }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            display: none;
+        }
 
         /* Responsividade para telas menores */
         @media (max-width: 500px) {
@@ -78,6 +85,10 @@
             }
         }
     </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
 </head>
 <body>
 
@@ -85,13 +96,64 @@
         <div class="title-box">
             Login
         </div>
-        <form action="/submit" method="POST">
-            <input type="text" name="username" placeholder="Usuário" required>
-            <input type="password" name="password" placeholder="Senha" required>
+        <form id="login-form">
+            <input type="email" id="email" name="email" placeholder="E-mail" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
-        <p>Ainda não tem uma conta? <a href="registro.html">Registre-se aqui</a></p> <!-- Link para a página de registro -->
+        <p>Ainda não tem uma conta? <a href="registro.html">Registre-se aqui</a></p>
+        <!-- Mensagem de erro visível apenas quando o login falha -->
+        <div id="error-message" class="error-message">E-mail ou senha incorretos.</div>
     </div>
+
+    <script>
+        // Configuração do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyBu82UHvt_Z0vuHvK2RXa8HlSJjeq1Wpo8",  // Sua chave da API
+            authDomain: "faculdade-b6961.firebaseapp.com",  // Domínio de autenticação
+            projectId: "faculdade-b6961",  // ID do projeto no Firebase
+            storageBucket: "faculdade-b6961.firebasestorage.app",  // Storage bucket (armazenamento de arquivos)
+            messagingSenderId: "102753500150",  // ID do remetente de mensagens
+            appId: "1:102753500150:web:87c3d2bbf75294adba65d7",  // ID do app
+            measurementId: "G-7MXLVFC42Z"  // ID para Google Analytics
+        };
+
+        // Inicializar o Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Adicionando o listener para o formulário de login
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            // Fazendo login com e-mail e senha
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Login bem-sucedido
+                    const user = userCredential.user;
+                    console.log("Usuário logado com sucesso:", user);
+
+                    // Esconde a mensagem de erro, caso ela tenha sido exibida anteriormente
+                    document.getElementById("error-message").style.display = "none";
+
+                    // Redireciona para a página "pagina.html" após o login bem-sucedido
+                    window.location.href = "pagina.html";
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    console.error("Erro ao fazer login:", errorCode, errorMessage);
+
+                    // Exibe a mensagem de erro quando a autenticação falha
+                    document.getElementById("error-message").style.display = "block";
+                    document.getElementById("error-message").textContent = "E-mail ou senha incorretos."; // Mensagem de erro personalizada
+                });
+        });
+    </script>
 
 </body>
 </html>

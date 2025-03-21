@@ -22,8 +22,15 @@
             width: 300px;
             text-align: center;
         }
-        .register-container h2 {
-            margin-bottom: 20px;
+        .register-box {
+            background-color: cyan; /* Quadrado cyan */
+            padding: 10px;
+            border-radius: 8px;
+            /* color: white; */
+            margin-bottom: 20px; /* Espaçamento entre o título e o formulário */
+        }
+        .register-box h2 {
+            margin: 0;
         }
         .register-container input {
             width: 100%;
@@ -33,15 +40,15 @@
             border-radius: 4px;
         }
         .register-container input:focus {
-            border-color: #4CAF50; /* Mudança na borda ao focar no campo */
-            outline: none; /* Remove o contorno padrão */
+            /* background-color: cyan;  */
+            outline: none;
         }
         .register-container button {
             width: 100%;
             padding: 10px;
-            background-color: #4CAF50;
+            background-color: cyan; 
             border: none;
-            color: white;
+            /* color: white; */
             font-size: 16px;
             cursor: pointer;
             border-radius: 4px;
@@ -57,26 +64,96 @@
             text-decoration: none;
         }
 
-        /* Responsividade para telas menores */
         @media (max-width: 500px) {
             .register-container {
                 width: 80%;
             }
         }
     </style>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.10.0/firebase-auth.js"></script>
 </head>
 <body>
 
     <div class="register-container">
-        <h2>Registrar-se</h2>
-        <form action="/submit" method="POST">
-            <input type="text" name="username" placeholder="Nome de Usuário" required>
-            <input type="password" name="password" placeholder="Senha" required>
-            <input type="password" name="confirm-password" placeholder="Confirmar Senha" required>
+        <div class="register-box"> <!-- Quadrado cyan -->
+            <h2>Registrar-se</h2> <!-- Título dentro do quadrado cyan -->
+        </div>
+        <form id="register-form">
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Senha" required>
+            <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirmar Senha" required>
             <button type="submit">Registrar</button>
         </form>
         <p>Já tem uma conta? <a href="long.html">Faça login aqui</a></p>
     </div>
+
+    <script>
+        // Nova configuração do Firebase com a chave de API fornecida
+        const firebaseConfig = {
+            apiKey: "AIzaSyApkRZhI_2-zslwsyOp35SWJFKpBE2zSrg",  // Chave de API fornecida
+            authDomain: "faculdade-b6961.firebaseapp.com",  // Domínio de autenticação
+            projectId: "faculdade-b6961",  // ID do projeto no Firebase
+            storageBucket: "faculdade-b6961.firebasestorage.app",  // Storage bucket (armazenamento de arquivos)
+            messagingSenderId: "102753500150",  // ID do remetente de mensagens
+            appId: "1:102753500150:web:87c3d2bbf75294adba65d7",  // ID do app
+            measurementId: "G-7MXLVFC42Z"  // ID para Google Analytics
+        };
+
+        // Inicializando o Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Manipulador de envio do formulário
+        document.getElementById("register-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            console.log("Email:", email);  // Logando o email
+            console.log("Senha:", password);  // Logando a senha
+
+            // Verificar se as senhas coincidem
+            if (password !== confirmPassword) {
+                alert("As senhas não coincidem!");
+                return;
+            }
+
+            // Registrar o usuário no Firebase Authentication
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Usuário registrado com sucesso
+                    const user = userCredential.user;
+
+                    // Log do sucesso
+                    console.log("Usuário registrado com sucesso:", user);
+
+                    // Exibir o ID do usuário e dados completos
+                    console.log("ID do usuário:", user.uid);
+                    console.log("Dados do usuário:", user);
+
+                    // Exibindo dados do Firebase Authentication
+                    alert("Usuário registrado com sucesso!");
+
+                    // Redirecionar ou limpar o formulário após o sucesso
+                    window.location.href = "login.html";  // Redireciona para a página de login após o registro
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+
+                    // Log de erro
+                    console.error("Erro ao registrar usuário:", errorCode, errorMessage);
+
+                    // Exibe a mensagem de erro para o usuário
+                    alert(`Erro ao registrar usuário: ${errorMessage}`);
+                });
+        });
+    </script>
 
 </body>
 </html>
