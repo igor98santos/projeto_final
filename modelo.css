@@ -11,7 +11,7 @@ body {
 .logo-container {
     display: flex; 
     max-width: 1860px; 
-    height: 90%; 
+    height: 59%; 
     position: absolute; 
     top: 50%;
     left: 50%; 
@@ -59,18 +59,19 @@ h2 {
     margin-right: 10px; 
     width: 20px; 
     height: 20px; }
-
-.purple-box {
-    background-color: #FFAEC9; 
-    color: white; 
-    padding: 20px;
- 
-    text-align: center; 
-    width: 100%;
-    max-width: 1860px;
-   
-
-}
+    .purple-box {
+        background-color: #FFAEC9; 
+        color: white; 
+        padding: 22px;
+        text-align: center; 
+        width: 99%;
+        max-width: 1860px;
+        
+        margin-left: -19px; 
+        margin-top: -19px; 
+    }
+    
+    
 .add-to-cart-button {
     width: 100%; 
     padding: 10px;
