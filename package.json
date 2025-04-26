@@ -1,0 +1,23 @@
+{
+  "name": "projeto_final",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bringel12/projeto_final.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bringel12/projeto_final/issues"
+  },
+  "homepage": "https://github.com/Bringel12/projeto_final#readme",
+  "description": "",
+  "dependencies": {
+    "mongodb": "6.16"
+  }
+}
