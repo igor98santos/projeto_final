@@ -91,67 +91,26 @@
     </div>
 
     <script>
-        // Nova configuração do Firebase com a chave de API fornecida
-        const firebaseConfig = {
-            apiKey: "AIzaSyApkRZhI_2-zslwsyOp35SWJFKpBE2zSrg",  // Chave de API fornecida
-            authDomain: "faculdade-b6961.firebaseapp.com",  // Domínio de autenticação
-            projectId: "faculdade-b6961",  // ID do projeto no Firebase
-            storageBucket: "faculdade-b6961.firebasestorage.app",  // Storage bucket (armazenamento de arquivos)
-            messagingSenderId: "102753500150",  // ID do remetente de mensagens
-            appId: "1:102753500150:web:87c3d2bbf75294adba65d7",  // ID do app
-            measurementId: "G-7MXLVFC42Z"  // ID para Google Analytics
-        };
-
-        // Inicializando o Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        // Manipulador de envio do formulário
-        document.getElementById("register-form").addEventListener("submit", function(event) {
-            event.preventDefault();
-
+        document.getElementById("register-form").addEventListener("submit", async function(event) {
+            event.preventDefault(); // Impede o reload da página
+    
             const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirm-password").value;
-
-            console.log("Email:", email);  // Logando o email
-            console.log("Senha:", password);  // Logando a senha
-
-            // Verificar se as senhas coincidem
-            if (password !== confirmPassword) {
+            const senha = document.getElementById("password").value;
+            const confirmarSenha = document.getElementById("confirm-password").value;
+    
+            if (senha !== confirmarSenha) {
                 alert("As senhas não coincidem!");
                 return;
             }
-
-            // Registrar o usuário no Firebase Authentication
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Usuário registrado com sucesso
-                    const user = userCredential.user;
-
-                    // Log do sucesso
-                    console.log("Usuário registrado com sucesso:", user);
-
-                    // Exibir o ID do usuário e dados completos
-                    console.log("ID do usuário:", user.uid);
-                    console.log("Dados do usuário:", user);
-
-                    // Exibindo dados do Firebase Authentication
-                    alert("Usuário registrado com sucesso!");
-
-                    // Redirecionar ou limpar o formulário após o sucesso
-                    window.location.href = "login.html";  // Redireciona para a página de login após o registro
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-
-                    // Log de erro
-                    console.error("Erro ao registrar usuário:", errorCode, errorMessage);
-
-                    // Exibe a mensagem de erro para o usuário
-                    alert(`Erro ao registrar usuário: ${errorMessage}`);
-                });
+    
+            const response = await fetch("http://localhost:3000/registrar", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, senha })
+            });
+    
+            const data = await response.json();
+            alert(data.mensagem);
         });
     </script>
 
